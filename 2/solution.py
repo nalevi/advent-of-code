@@ -37,6 +37,8 @@ def main(*argc, **argv):
 			else:
 				continue
 
+	outArr = generate_int_code(opcodeArr)
+
 	if outArr[0] != 19690720:
 		print("Nincs m.o")
 	else:
