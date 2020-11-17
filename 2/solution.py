@@ -1,21 +1,26 @@
 
 
-def generate_int_code(opcodeArr):
+def generate_int_code(opcodeArr,noun,verb):
 	
+	opcodeArr[1] = noun
+	opcodeArr[2] = verb
 	idx = 0
 	while opcodeArr[idx] != 99:
 		if idx % 4 == 0:
 			if opcodeArr[idx] == 1:
 				opcodeArr[opcodeArr[idx+3]] = opcodeArr[opcodeArr[idx+1]] + opcodeArr[opcodeArr[idx+2]]
+				idx += 4
 			elif opcodeArr[idx] == 2:
 				opcodeArr[opcodeArr[idx+3]] = opcodeArr[opcodeArr[idx+1]] * opcodeArr[opcodeArr[idx+2]]
+				idx += 4
+			if opcodeArr[idx] == 99:
+				print("Terminate: "+str(opcodeArr[0]))
 
-			idx += 4
 	return opcodeArr
 
 
 def main(*argc, **argv):
-	if argc:
+	if argc == 2:
 		filename = argv[1]	
 	else:
 		filename = "input.txt"
@@ -24,25 +29,20 @@ def main(*argc, **argv):
 
 	opcodeSeq = f.readline()
 	opcodeArr = [int(num) for num in opcodeSeq.split(',')]	
-	print("outside: "+str(len(opcodeArr)))
 
-	for i in range(0,99):
-		opcodeArr[1] = i
-		for j in range(0,99):
-			opcodeArr[2] = j
-			print("inside: " + str(len(opcodeArr)))
-			outArr = generate_int_code(opcodeArr)
+		
+	for i in range(100):
+		for j in range(100):
+			outArr = generate_int_code(opcodeArr,i,j)
 			if outArr[0] == 19690720:
 				break
-			else:
-				continue
-
-	outArr = generate_int_code(opcodeArr)
+		
+	#outArr = generate_int_code(opcodeArr,12,2)
 
 	if outArr[0] != 19690720:
 		print("Nincs m.o")
 	else:
-		print(str(outArr))
+		print(str(outArr[1])+" "+str(outArr[2]))
 
 if __name__=="__main__":
 	main()
