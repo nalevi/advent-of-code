@@ -5,7 +5,7 @@ def generate_int_code(opcodeArr,noun,verb):
 	opcodeArr[1] = noun
 	opcodeArr[2] = verb
 	idx = 0
-	while opcodeArr[idx] != 99:
+	while idx < len(opcodeArr):
 		if idx % 4 == 0:
 			if opcodeArr[idx] == 1:
 				opcodeArr[opcodeArr[idx+3]] = opcodeArr[opcodeArr[idx+1]] + opcodeArr[opcodeArr[idx+2]]
@@ -13,8 +13,12 @@ def generate_int_code(opcodeArr,noun,verb):
 			elif opcodeArr[idx] == 2:
 				opcodeArr[opcodeArr[idx+3]] = opcodeArr[opcodeArr[idx+1]] * opcodeArr[opcodeArr[idx+2]]
 				idx += 4
-			if opcodeArr[idx] == 99:
+			elif opcodeArr[idx] == 99:
 				print("Terminate: "+str(opcodeArr[0]))
+				break
+			else:
+				print("unkown code")
+				break	
 
 	return opcodeArr
 
