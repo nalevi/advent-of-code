@@ -17,7 +17,6 @@ tableSize = len(table)
 allTrees = 1
 
 for stp in steps:
-    print(stp)
     treeCounter = 0
     i = 0
     j = 0
@@ -29,7 +28,6 @@ for stp in steps:
 
         j += stp[0]
         i += stp[1]
-        print(str(i) + " " + str(j))
 
         if table[i][j] == '#':
             treeCounter += 1
