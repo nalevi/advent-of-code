@@ -5,17 +5,34 @@
 #include <vector>
 #include <memory>
 #include <map>
+#include <algorithm>
 
-struct Node
+
+class SearchTree
 {
-    std::string data;
-    std::unique_ptr<Node> left;
-    std::unique_ptr<Node> right;
+    private:
+        struct Node
+        {
+            std::string data;
+            std::shared_ptr<Node> parent;
+            std::vector<std::shared_ptr<Node>> children;
 
-    Node(std::string d): data(d), left(nullptr), right(nullptr) {}
+            Node(std::string d): data(d), parent(nullptr) {}
+        };
+
+        std::shared_ptr<Node> _root;
+        int _height;
+    public:
+        SearchTree(std::string rootData): _root(new Node(rootData)), _height(0) {}
+        ~SearchTree() 
+        { 
+            _root->children.clear();
+        }
+
+        void push(std::string data);
+
+        int getHeight() { return _height; }
 };
-
-
 
 int main()
 {
@@ -30,7 +47,6 @@ int main()
 
     inpFile.close();
 
-    std::unique_ptr<Node> root(new Node("shiny gold"));
 
     std::map<std::string, std::vector<std::string>> rulesDict;
 
@@ -66,6 +82,12 @@ int main()
 
     }
 
+    SearchTree st("shiny gold");
+
+    for(auto b: rulesDict)
+    {
+        ;
+    }
 
 
 
@@ -73,3 +95,16 @@ int main()
 }
 
     
+void SearchTree::push(std::string data)
+{
+    if(_root->children.size() == 0 || std::find(_root->children.begin(),_root->children.end(), std::shared_ptr<Node>(new Node(data))) == _root->children.end())
+    {
+        std::shared_ptr<Node> newNode(new Node(data));
+        newNode->parent = _root;
+        _root->children.push_back(std::move(newNode));
+    }
+    else
+    {
+        
+    } 
+}
