@@ -1,0 +1,99 @@
+#!/usr/bin/env python
+
+def turn(side, degree, face):
+    if side == "R":
+        if degree % 360 == 0:
+            return face
+        elif degree % 270 == 0:
+            if face == "N":
+                return "W"
+            elif face == "E":
+                return "N"
+            elif face == "S":
+                return "E"
+            elif face == "W":
+                return "S"
+        elif degree % 180 == 0:
+            if face == "N":
+                return "S"
+            elif face == "E":
+                return "W"
+            elif face == "S":
+                return "N"
+            elif face == "W":
+                return "E"
+        elif degree % 90 == 0:
+            if face == "N":
+                return "E"
+            elif face == "E":
+                return "S"
+            elif face == "S":
+                return "W"
+            elif face == "W":
+                return "N"
+    elif side == "L":
+        if degree % 360 == 0:
+            return face
+        elif degree % 270 == 0:
+            if face == "N":
+                return "E"
+            elif face == "E":
+                return "S"
+            elif face == "S":
+                return "W"
+            elif face == "W":
+                return "N"
+        elif degree % 180 == 0:
+            if face == "N":
+                return "S"
+            elif face == "E":
+                return "W"
+            elif face == "S":
+                return "N"
+            elif face == "W":
+                return "E"
+        elif degree % 90 == 0:
+            if face == "N":
+                return "W"
+            elif face == "E":
+                return "N"
+            elif face == "S":
+                return "E"
+            elif face == "W":
+                return "S"
+
+
+def move(direction, cnt, pos):
+    if direction == "N":
+        pos[1] += cnt
+    elif direction == "S":
+        pos[1] -= cnt
+    elif direction == "E":
+        pos[0] += cnt
+    elif direction == "W":
+        pos[0] -= cnt
+    elif direction == "F":
+        return move(pos[2],cnt,pos)
+    elif direction == ("L" or "R"):
+        pos[2] = turn(direction, cnt, pos[2])
+    
+    return pos 
+
+def main():
+
+    directions = list()
+    with open("input.txt","r") as f:
+        directions.append(f.read().splitlines())
+
+    default=[0,0,"E"]
+    for d in directions:
+        for dd in d:
+            if dd != d[-1]:
+                default = move(dd[0],int(dd[1:]),default)
+                print(default)
+    
+    print(abs(default[0])+abs(default[1]))
+
+if __name__=='__main__':
+    main()
+
